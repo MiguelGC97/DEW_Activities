@@ -19,6 +19,9 @@
       Develop a simple game that consists on the appearance of building bricks over an image of a natural
       space, when you click on the bricks they disappear, but every second a new brick appears.
     </p>
+
+    <div id="gameContainerA"></div>
+
     <h3>Version B</h3>
     <p>
       Develop a simple game that consists on the appearance of "work posters" over an image of a natural space, when you click on the posters they disappear, but if it takes too long the posters change to buildings.
@@ -42,7 +45,54 @@
         </li>
       </ul>
     </p>
-    <div id="table-container"></div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <div id="gameContainerB"></div>
+    <script>
+
+      
+        // Asignamos el div a una variable y le damos estilo
+      const containerA = document.getElementById('gameContainerA');
+      containerA.style.backgroundImage = 'url(https://7mar.es/img/llocs/310/playa-de-melenara-en-telde-gran-canaria-0.webp)';
+      containerA.style.backgroundPosition = 'center';
+      containerA.style.backgroundRepeat = 'no-repeat';
+      containerA.style.backgroundSize = 'cover'
+      containerA.style.padding = '24px';
+      containerA.style.maxWidth = '90vw';
+      //containerA.style.height = '600px'
+      containerA.style.display = 'flex';
+      containerA.style.alignContent = 'flex-start'
+      containerA.style.flexWrap = 'wrap';
+
+      
+      const brickInterval = setInterval(createBrick, 100);
+
+      function createBrick() {
+        // Creamos el ladrillo y le damos estilo
+        const brick = document.createElement("div");
+        brick.className = 'brick';
+        brick.style.padding = '20px';
+        brick.style.backgroundColor = 'brown';
+        brick.style.width = '50px';
+        brick.style.height = '20px'
+        brick.style.margin = '10px';
+        brick.style.left = '10px';
+
+        // Agregamos el ladrillo al contenedor
+        if (containerA.offsetHeight < 525) {
+          containerA.appendChild(brick);
+        }
+        
+        
+        //debugger;
+
+        brick.addEventListener('click', function(){
+        containerA.removeChild(brick);
+      })
+      }
+
+      
+
+      
+
+    </script>
   </body>
 </html>

@@ -7,6 +7,31 @@
 
     <title>Activity 5: Forms &amp; click event</title>
   </head>
+
+  <script>
+    function createTable(e) {
+      
+      let form1 = document.getElementByID("form");
+      let rows = document.getElementByID("rows").value;
+      let columns = document.getElementByID("columns").value;
+      let table = '';
+      let rows2 = e.target.elements.rows.value; // Otra forma de obtener los datos
+
+      //e.stopPropagation();
+      e.preventDefault();
+      
+      for(let i = 0 ; i < rows; i++){
+        //creamos fila
+        table += '<tr>';
+        // rowEl = document.createElement('tr'); otro método de hacerlo
+          for(let j = 0; j < columns; j++)
+        table +='</tr>';
+      }
+
+      
+    }
+  </script>
+
   <body>
     <h1>Activity 5: Forms &amp; click event</h1>
     <p>
@@ -19,5 +44,15 @@
         <li>Add a table with as many rows and columns both Rows and Columns fields indicate</li>
         <li>Each table cell must contain a text like: "Row: X, Col: Y"</li>
       </ol>
+
+      <form id="form" onsubmit="createTable(event)">
+        <label>Rows: <input id="rows" type="number" min=1 name="rows"/></label>
+        <label>Columns: <input id="columns" type="number" min=1 name="columns"/></label>
+        <input type="submit" value="Generate Table"/>
+        <script>
+          debugger;
+        </script>
+      </form>
+      <div id="container"></div>
   </body>
 </html>

@@ -1,18 +1,116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
 
     <title>Activity 6: AJAX request (? ...fetch!) + DOM manipulation</title>
   </head>
+
   <body>
     <h1>Activity 6: AJAX request (? ...fetch!) + DOM manipulation</h1>
-    <p>With JS fetch load de data on the sibling file employees.json and build a table showing the data:</p>
+    <p>
+      With JS fetch load de data on the sibling file employees.json and build a
+      table showing the data:
+    </p>
     <div id="table-container"></div>
+
+    <script>
+      // CON jQuery
+
+      /*$(document).ready(function() {// otra forma de esperar a que se carguen los datos
+        $.ajax({
+          url: 'employees.jason',
+          method: 'GET',
+          dataType: "json",
+          success: function(data) { //se ejecuta si la solicitud ajax se realiza con éxito
+        //Inicializar una variable que contenga una cadena HTML que represente la estructura de la tabla
+        
+            let table = '<table class="table"><thead><tr><th>ID</th><th>Department</th></tr></thead></table>'
+            $.each(data, function(index, employee) {
+              table += `<tr><td>${employee.id}</td><td>${employee.name}</td><td>${employee.department}</td></tr>`
+            });
+            table += '</tbody></table>';
+            $('#table-container').html(table);
+          }, error: function() {
+            $('#table-container').html('<p>Error loading data.</p>');
+          }
+        });
+      });
+  
+      $(document).ready(function() { //Esta función se ejecutará una vez el DOM esté completamete cargado
+      $.ajax({  //es un método
+          url: 'employees.json', 
+          method: 'GET',  //se usa para solicitar datos de un servidor
+          dataType: 'json', //especificar el tipo de dato
+          success: function(data) { //se ejecuta si la solicitud AJAX se realiza con éxito
+        //Inicializar una variable que contenga una cadena que represente la estructura de la tabla.
+            let table = '<table class="table"><thead><tr><th>ID</th><th>Name</th><th>Department</th></tr></thead><tbody>';
+            $.each(data, function(index, employee) {
+            //Agregar una fila para cada uno (MIRIam, gonzalo....
+              table += `<tr><td>${employee.id}</td><td>${employee.name}</td><td>${employee.departament}</td></tr>`;
+            }); //Finalizo el bucle que recorre los empleados
+            table += '</tbody></table>';
+            $('#table-container').html(table);
+  }, //cerrar success
+          error: function() {
+              $('#table-container').html('<p>Error loading data.</p>');
+          }
+      });
+  });*/
+
+      // CON JS
+
+      // inicia la llamada
+      fetch("employees.json")
+        .then(function (data) {
+          return data.json();
+        })
+        .then(function (json) {
+          console.log(
+            "los datos:",
+            json
+          ); /*JSON.parse(json) convierte un string a json, JSON.stringfy para pasarlo de json a string*/
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      function createTable(e) {
+        e.preventDefault();
+
+        const inputRow = document.getElementById("inputRow").value;
+        const inputColumn = document.getElementById("inputColumn").value;
+
+        let div = document.getElementById("table-container");
+        let table = document.createElement("table");
+
+        div.appendChild(table);
+
+        for (let i = 0; i < inputRow; i++) {
+          let row = document.createElement("tr");
+          table.appendChild(row);
+          let innerHTML = "";
+          for (let j = 0; j < inputColumn; j++) {
+            innerHTML += "<td>Row:" + i + ", Col:" + j + "</td>";
+          }
+          row.innerHTML = innerHTML;
+        }
+      }
+
+      console.log("se sigue ejecutando el script");
+    </script>
   </body>
 </html>

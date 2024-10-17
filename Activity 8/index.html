@@ -17,6 +17,9 @@
         width: 50px;
         border-radius: 5px;
       }
+      .hidden{
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -28,19 +31,69 @@
       <li>When 1 audio ends the following one must estart playing automatically</li>
     </ul>
 
-    <ol>
-      <li>music1.mp3</li>
-      <li>music2.mp3</li>
-      <li>music3.mp3</li>
+    <ol id="playlist">
+      <li>music1.mp3 <i class="fa fa-play"></i></li>
+      <li>music2.mp3 <i class="fa fa-play hidden"></i></li>
+      <li>music3.mp3 <i class="fa fa-play hidden"></i></li>
     </ol>
-    <audio>
-     <source src="" type="audio/mpeg">
+    <audio controls id="audioPlayer" src="">
      Your browser does not support the audio tag.
     </audio>
     <div class="controls">
       <div class="play"><i class="fa fa-play"></i></div>
       <div class="backward"><i class="fa fa-step-backward"></i></div>
-      <div class="fordward"><i class="fa fa-step-forward"></i></div>
+      <div class="forward"><i class="fa fa-step-forward"></i></div>
     </div>
+    <script>
+      const songs = ["brasil.ogg", "colombia.ogg", "espana.ogg"];
+      const player = document.getElementById('audioPlayer');
+      const play = document.querySelector('.play');
+      const backward = document.querySelector('.backward');
+      const forward = document.querySelector('.forward');
+
+      let currentSong = 0;
+
+      player.src= songs[currentSong];
+
+      play.onclick =  function(e){
+        if(player.paused ){
+          player.play();
+          e.target.classList.replace('fa-play', 'fa-pause');
+        } else {
+          player.pause();
+          e.target.classList.replace('fa-pause', 'fa-play');
+        } 
+      }
+
+      function playSong(songNumber = 0, forcePlay = false){
+        const paused = player.paused;
+        player.src= songs[songNumber];
+        (!paused || forcePlay) && player.play();
+        
+        const playIcons = document.querySelectorAll('#playlist li i.fa-play');
+
+        playIcons.forEach(playIcon => playIcon.classList.add('hidden'));
+        playIcons[songNumber].classList.remove('hidden');
+      }
+
+      backward.onclick = function(){
+        currentSong--;
+        if(currentSong === -1){
+          currentSong = songs.length - 1;
+        }
+        playSong(currentSong);
+      }
+
+      forward.onclick = function(){
+        currentSong = ++currentSong % songs.length;
+        playSong(currentSong);
+      }
+
+      player.onended = function(){
+        currentSong = ++currentSong % songs.length;
+        playSong(currentSong, true);
+      }
+
+    </script>
   </body>
 </html>
